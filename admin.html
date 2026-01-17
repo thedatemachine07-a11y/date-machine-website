@@ -3,9 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Date Machine | Admin</title>
+    <meta name="description" content="Admin dashboard for The Date Machine.">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section class="section">
+            <div class="container admin-shell">
+                <div class="admin-card" data-admin-login>
+                    <h1 class="section-title">Admin login</h1>
+                    <form class="form-grid" id="admin-login-form">
+                        <label class="form-field">
+                            Email
+                            <input type="email" name="email" placeholder="admin@example.com" required>
+                        </label>
+                        <label class="form-field">
+                            Password
+                            <input type="password" name="password" placeholder="Password" required>
+                        </label>
+                        <button class="btn btn-primary" type="submit">Sign in</button>
+                    </form>
+                    <p class="form-error" data-admin-error hidden></p>
+                </div>
+
+                <div class="admin-panel" data-admin-panel hidden>
+                    <div class="admin-header">
+                        <div>
+                            <h1 class="section-title">Event manager</h1>
+                            <p class="section-subtitle">Add, review, and publish upcoming events.</p>
+                        </div>
+                        <button class="btn btn-ghost" id="admin-signout" type="button">Sign out</button>
+                    </div>
+                    <p class="form-error" data-admin-panel-error hidden></p>
+                    <div class="admin-grid">
+                        <div class="card">
+                            <h3>New event</h3>
+                            <form class="form-grid" id="event-form">
+                                <label class="form-field">
+                                    Event title
+                                    <input type="text" name="title" placeholder="Downtown Mixer" required>
+                                </label>
+                                <label class="form-field">
+                                    Date
+                                    <input type="date" name="date" required>
+                                </label>
+                                <label class="form-field">
+                                    Time
+                                    <input type="time" name="time">
+                                </label>
+                                <label class="form-field">
+                                    Location
+                                    <input type="text" name="location" placeholder="City Loft, Atlanta">
+                                </label>
+                                <label class="form-field">
+                                    Ticket price
+                                    <input type="text" name="price" placeholder="$45">
+                                </label>
+                                <label class="form-field">
+                                    Ticket link
+                                    <input type="url" name="ticketUrl" placeholder="https://">
+                                </label>
+                                <label class="form-field">
+                                    Status
+                                    <select name="status">
+                                        <option value="scheduled">Scheduled</option>
+                                        <option value="sold-out">Sold out</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                </label>
+                                <label class="form-field">
+                                    Notes
+                                    <textarea name="notes" placeholder="Short description or details."></textarea>
+                                </label>
+                                <button class="btn btn-primary" type="submit">Add event</button>
+                            </form>
+                            <p class="form-success" data-admin-success hidden></p>
+                        </div>
+                        <div class="card">
+                            <h3>Upcoming events</h3>
+                            <div class="event-list" id="event-list">
+                                <p class="footer-note">No events yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card admin-waitlist">
+                        <div class="admin-section-header">
+                            <h3>Merch waitlist</h3>
+                            <button class="btn btn-secondary btn-small" id="waitlist-copy" type="button">
+                                Copy emails
+                            </button>
+                        </div>
+                        <p class="footer-note"><span id="waitlist-count">0</span> signups</p>
+                        <div class="waitlist-list" id="waitlist-list">
+                            <p class="footer-note">No signups yet.</p>
+                        </div>
+                        <p class="footer-note" id="waitlist-message" hidden></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="main.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script type="module" src="admin.js"></script>
 </body>
 </html>

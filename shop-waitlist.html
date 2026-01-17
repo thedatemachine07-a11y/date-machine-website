@@ -3,9 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Date Machine | Merch Waitlist</title>
+    <meta name="description" content="Join the Date Machine merch waitlist for upcoming drops.">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section class="section">
+            <div class="container hero-grid">
+                <div>
+                    <span class="eyebrow">Merch waitlist</span>
+                    <h1 class="headline">Be first in line for Date Machine merch.</h1>
+                    <p class="subhead">
+                        The shop is opening soon with merch drops, tees, and date-night essentials. Join the
+                        waitlist to get early access and first dibs on limited releases.
+                    </p>
+                </div>
+                <div class="hero-card">
+                    <h3>Join the merch waitlist</h3>
+                    <form class="form-grid" id="waitlist-form">
+                        <label class="form-field">
+                            Full name
+                            <input type="text" name="name" placeholder="Your name" required>
+                        </label>
+                        <label class="form-field">
+                            Email address
+                            <input type="email" name="email" placeholder="you@example.com" required>
+                        </label>
+                        <label class="form-field">
+                            Merch interest
+                            <select name="merch">
+                                <option value="tees">Tees</option>
+                                <option value="hoodies">Hoodies</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="kits">Date-night kits</option>
+                            </select>
+                        </label>
+                        <button class="btn btn-primary" type="submit">Join waitlist</button>
+                    </form>
+                    <p class="footer-note">Waitlist entries are stored in the admin dashboard.</p>
+                    <p class="form-success" id="waitlist-success" hidden></p>
+                    <p class="form-error" id="waitlist-error" hidden></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-alt">
+            <div class="container">
+                <h2 class="section-title">What to expect</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h4>Limited merch drops</h4>
+                        <p>Signature tees, accessories, and seasonal capsules.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Quality-first</h4>
+                        <p>Soft fabrics, premium finishes, and thoughtful packaging.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Date-night essentials</h4>
+                        <p>Curated add-ons designed to level up any plan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="main.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script type="module" src="waitlist.js"></script>
 </body>
 </html>

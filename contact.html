@@ -3,9 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Date Machine | Contact</title>
+    <meta name="description" content="Contact The Date Machine for dates, events, and collaborations.">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section class="section">
+            <div class="container hero-grid">
+                <div>
+                    <span class="eyebrow">Contact</span>
+                    <h1 class="headline">Let's plan something memorable.</h1>
+                    <p class="subhead">
+                        Tell us what you are looking for, and we will follow up quickly.
+                    </p>
+                </div>
+                <div class="hero-card">
+                    <h3>Send a message</h3>
+                    <form class="form-grid" id="contact-form">
+                        <label class="form-field">
+                            Full name
+                            <input type="text" name="name" placeholder="Your name" required>
+                        </label>
+                        <label class="form-field">
+                            Email
+                            <input type="email" name="email" placeholder="you@example.com" required>
+                        </label>
+                        <label class="form-field">
+                            Inquiry type
+                            <select name="type">
+                                <option value="subscription">Subscription</option>
+                                <option value="events">Events</option>
+                                <option value="shop">Shop</option>
+                                <option value="partnership">Partnership</option>
+                            </select>
+                        </label>
+                        <label class="form-field">
+                            Message
+                            <textarea name="message" placeholder="Tell us what you are looking for..." required></textarea>
+                        </label>
+                        <button class="btn btn-primary" type="submit">Send message</button>
+                    </form>
+                    <p class="form-success" id="contact-success" hidden></p>
+                    <p class="form-error" id="contact-error" hidden></p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="main.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="contact.js" defer></script>
 </body>
 </html>

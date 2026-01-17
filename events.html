@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Date Machine | Speed Dating</title>
+    <meta name="description" content="Ticketed speed dating events hosted by The Date Machine.">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section class="section">
+            <div class="container hero-grid">
+                <div>
+                    <h1 class="headline">Curated events with real chemistry.</h1>
+                    <p class="subhead">
+                        Ticketed speed dating events with thoughtful prompts, curated venues, and post-event
+                        follow-up. Tickets will be managed in the admin dashboard.
+                    </p>
+                </div>
+                <div class="media-placeholder">Event imagery coming soon</div>
+            </div>
+        </section>
+
+        <section class="section section-alt">
+            <div class="container">
+                <h2 class="section-title">Upcoming events</h2>
+                <p class="section-subtitle">Events are pulled live from the admin event manager.</p>
+                <p class="form-error" id="public-events-error" hidden></p>
+                <div class="event-list" id="public-event-list">
+                    <p class="footer-note" id="public-events-empty">No events yet.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="notice">
+                    Ticket purchases will email a confirmation and receipt once payment processing is connected.
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="main.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script type="module" src="events.js"></script>
 </body>
 </html>
