@@ -261,11 +261,64 @@ a {
   flex-wrap: wrap;
 }
 
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(230, 173, 191, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.social-link img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.social-link img[alt="YouTube"] {
+  width: 70px;
+  height: 70px;
+}
+
 .hero-card {
   background: var(--white);
   border-radius: var(--radius-lg);
   padding: 28px;
   box-shadow: var(--shadow);
+}
+
+.hero-media {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(230, 173, 191, 0.35);
+  max-width: 520px;
+  margin-left: auto;
+}
+
+.hero-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-md);
 }
 
 .hero-card h3 {
@@ -292,6 +345,8 @@ a {
 .step-number {
   width: 32px;
   height: 32px;
+  flex: 0 0 32px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   background: var(--pink-200);
   color: var(--pink-700);
@@ -361,6 +416,15 @@ main > .hero:first-child {
   place-items: center;
 }
 
+.card-media {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 12px 0;
+  border-radius: var(--radius-sm);
+  background: #fff6f9;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
@@ -371,6 +435,18 @@ main > .hero:first-child {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--pink-700);
+}
+
+.card .pill + h4 {
+  margin-top: 8px;
+}
+
+.merch-page .section {
+  padding: 44px 0;
+}
+
+.merch-page .section + .section {
+  padding-top: 28px;
 }
 
 .split {
