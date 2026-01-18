@@ -566,7 +566,8 @@ main > .hero:first-child {
 }
 
 .admin-card {
-  max-width: 420px;
+  max-width: 720px;
+  width: 100%;
   margin: 0 auto;
   background: var(--white);
   padding: 28px;
@@ -577,6 +578,18 @@ main > .hero:first-child {
 .admin-panel {
   display: grid;
   gap: 24px;
+}
+
+.admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-section {
+  display: grid;
+  gap: 16px;
+  scroll-margin-top: 120px;
 }
 
 .admin-waitlist {
@@ -658,6 +671,13 @@ main > .hero:first-child {
   font-weight: 600;
 }
 
+.event-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
 .waitlist-list {
   display: grid;
   gap: 12px;
@@ -670,7 +690,28 @@ main > .hero:first-child {
   background: var(--cream);
   border: 1px solid rgba(230, 173, 191, 0.35);
   display: grid;
-  gap: 6px;
+  gap: 8px;
+}
+
+.waitlist-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.waitlist-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.waitlist-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .waitlist-name {

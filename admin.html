@@ -6,6 +6,7 @@
     <title>The Date Machine | Admin</title>
     <meta name="description" content="Admin dashboard for The Date Machine.">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
 </head>
 <body>
     <div id="site-header"></div>
@@ -36,6 +37,13 @@
                         </div>
                         <button class="btn btn-ghost" id="admin-signout" type="button">Sign out</button>
                     </div>
+                    <div class="admin-nav">
+                        <a class="btn btn-secondary btn-small" href="admin.html">Event manager</a>
+                        <a class="btn btn-secondary btn-small" href="admin-waitlist.html">Merch waitlist</a>
+                        <a class="btn btn-secondary btn-small" href="admin-shop.html">Shop</a>
+                        <a class="btn btn-secondary btn-small" href="admin-group-dates.html">Group dates</a>
+                        <a class="btn btn-secondary btn-small" href="admin-sponsors.html">Sponsors</a>
+                    </div>
                     <p class="form-error" data-admin-panel-error hidden></p>
                     <div class="admin-grid">
                         <div class="card">
@@ -43,11 +51,11 @@
                             <form class="form-grid" id="event-form">
                                 <label class="form-field">
                                     Event title
-                                    <input type="text" name="title" placeholder="Downtown Mixer" required>
+                                    <input type="text" name="title" placeholder="Downtown Mixer">
                                 </label>
                                 <label class="form-field">
                                     Date
-                                    <input type="date" name="date" required>
+                                    <input type="date" name="date">
                                 </label>
                                 <label class="form-field">
                                     Time
@@ -78,6 +86,9 @@
                                     <textarea name="notes" placeholder="Short description or details."></textarea>
                                 </label>
                                 <button class="btn btn-primary" type="submit">Add event</button>
+                                <button class="btn btn-ghost btn-small" type="button" id="event-cancel" hidden>
+                                    Cancel edit
+                                </button>
                             </form>
                             <p class="form-success" data-admin-success hidden></p>
                         </div>
@@ -87,19 +98,6 @@
                                 <p class="footer-note">No events yet.</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="card admin-waitlist">
-                        <div class="admin-section-header">
-                            <h3>Merch waitlist</h3>
-                            <button class="btn btn-secondary btn-small" id="waitlist-copy" type="button">
-                                Copy emails
-                            </button>
-                        </div>
-                        <p class="footer-note"><span id="waitlist-count">0</span> signups</p>
-                        <div class="waitlist-list" id="waitlist-list">
-                            <p class="footer-note">No signups yet.</p>
-                        </div>
-                        <p class="footer-note" id="waitlist-message" hidden></p>
                     </div>
                 </div>
             </div>

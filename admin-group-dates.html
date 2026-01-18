@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Date Machine | Admin - Group Dates</title>
+    <meta name="description" content="Admin group dates dashboard for The Date Machine.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
+</head>
+<body>
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section class="section">
+            <div class="container admin-shell">
+                <div class="admin-card" data-admin-login>
+                    <h1 class="section-title">Admin login</h1>
+                    <form class="form-grid" id="admin-login-form">
+                        <label class="form-field">
+                            Email
+                            <input type="email" name="email" placeholder="admin@example.com" required>
+                        </label>
+                        <label class="form-field">
+                            Password
+                            <input type="password" name="password" placeholder="Password" required>
+                        </label>
+                        <button class="btn btn-primary" type="submit">Sign in</button>
+                    </form>
+                    <p class="form-error" data-admin-error hidden></p>
+                </div>
+
+                <div class="admin-panel" data-admin-panel hidden>
+                    <div class="admin-header">
+                        <div>
+                            <h1 class="section-title">Group dates</h1>
+                            <p class="section-subtitle">Plan and schedule group date experiences.</p>
+                        </div>
+                        <button class="btn btn-ghost" id="admin-signout" type="button">Sign out</button>
+                    </div>
+                    <div class="admin-nav">
+                        <a class="btn btn-secondary btn-small" href="admin.html">Event manager</a>
+                        <a class="btn btn-secondary btn-small" href="admin-waitlist.html">Merch waitlist</a>
+                        <a class="btn btn-secondary btn-small" href="admin-shop.html">Shop</a>
+                        <a class="btn btn-secondary btn-small" href="admin-group-dates.html">Group dates</a>
+                        <a class="btn btn-secondary btn-small" href="admin-sponsors.html">Sponsors</a>
+                    </div>
+                    <p class="form-error" data-admin-panel-error hidden></p>
+                    <div class="card">
+                        <h3>Group dates admin</h3>
+                        <p class="footer-note">Future admin page for group date planning and scheduling.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="main.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

@@ -8,11 +8,14 @@ import {
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getFirestore,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const loginSection = document.querySelector("[data-admin-login]");
@@ -24,6 +27,7 @@ const successEl = document.querySelector("[data-admin-success]");
 const eventForm = document.querySelector("#event-form");
 const eventList = document.querySelector("#event-list");
 const signOutButton = document.querySelector("#admin-signout");
+const eventCancelButton = document.querySelector("#event-cancel");
 const waitlistList = document.querySelector("#waitlist-list");
 const waitlistCount = document.querySelector("#waitlist-count");
 const waitlistCopyButton = document.querySelector("#waitlist-copy");
@@ -59,7 +63,51 @@ const formatStatus = (status) => {
     .join(" ");
 };
 
+const eventSubmitButton = eventForm?.querySelector("button[type='submit']");
+
+const resetEventForm = ({ keepMessage = false } = {}) => {
+  if (!eventForm) {
+    return;
+  }
+  eventForm.reset();
+  delete eventForm.dataset.editId;
+  if (eventSubmitButton) {
+    eventSubmitButton.textContent = "Add event";
+  }
+  if (eventCancelButton) {
+    eventCancelButton.hidden = true;
+  }
+  if (!keepMessage) {
+    setMessage(successEl, "");
+  }
+};
+
+const startEventEdit = (docId, data) => {
+  if (!eventForm) {
+    return;
+  }
+  eventForm.title.value = data.title || "";
+  eventForm.date.value = data.date || "";
+  eventForm.time.value = data.time || "";
+  eventForm.location.value = data.location || "";
+  eventForm.price.value = data.price || "";
+  eventForm.ticketUrl.value = data.ticketUrl || "";
+  eventForm.status.value = data.status || "scheduled";
+  eventForm.notes.value = data.notes || "";
+  eventForm.dataset.editId = docId;
+  if (eventSubmitButton) {
+    eventSubmitButton.textContent = "Update event";
+  }
+  if (eventCancelButton) {
+    eventCancelButton.hidden = false;
+  }
+  setMessage(successEl, "Editing event. Save to update.");
+};
+
 const renderEvents = (snapshot) => {
+  if (!eventList) {
+    return;
+  }
   eventList.innerHTML = "";
   if (snapshot.empty) {
     const empty = document.createElement("p");
@@ -119,6 +167,38 @@ const renderEvents = (snapshot) => {
       item.appendChild(notes);
     }
 
+    const actions = document.createElement("div");
+    actions.className = "event-actions";
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.className = "btn btn-secondary btn-small";
+    editButton.textContent = "Edit";
+    editButton.addEventListener("click", () => {
+      startEventEdit(docRef.id, data);
+      eventForm?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "btn btn-ghost btn-small";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", async () => {
+      const confirmed = window.confirm("Delete this event?");
+      if (!confirmed) {
+        return;
+      }
+      try {
+        await deleteDoc(docRef.ref);
+        setMessage(successEl, "Event deleted.");
+      } catch (error) {
+        setError(error.message);
+      }
+    });
+
+    actions.append(editButton, deleteButton);
+    item.appendChild(actions);
+
     eventList.appendChild(item);
   });
 };
@@ -175,13 +255,43 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
       merch.className = "pill";
       merch.textContent = data.merch ? data.merch.replace(/^\w/, (c) => c.toUpperCase()) : "Merch";
 
-      item.append(name, email, merch);
+      const header = document.createElement("div");
+      header.className = "waitlist-row";
+
+      const meta = document.createElement("div");
+      meta.className = "waitlist-meta";
+      meta.append(name, merch);
+
+      const actions = document.createElement("div");
+      actions.className = "waitlist-actions";
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "btn btn-ghost btn-small";
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", async () => {
+        const confirmed = window.confirm("Delete this waitlist entry?");
+        if (!confirmed) {
+          return;
+        }
+        try {
+          await deleteDoc(doc(db, "waitlist", docRef.id));
+          setMessage(waitlistMessage, "Waitlist entry deleted.");
+        } catch (error) {
+          setError(error.message);
+        }
+      });
+
+      actions.append(deleteButton);
+      header.append(meta, actions);
+
+      item.append(header, email);
       waitlistList.appendChild(item);
     });
   };
 
   const startEventsListener = () => {
-    if (eventsUnsubscribe) {
+    if (eventsUnsubscribe || !eventList) {
       return;
     }
     const eventsQuery = query(collection(db, "events"), orderBy("date", "asc"));
@@ -255,31 +365,51 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
     }
   });
 
-  eventForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    setError("");
-    setMessage(successEl, "");
+  if (eventCancelButton) {
+    eventCancelButton.addEventListener("click", () => {
+      resetEventForm();
+    });
+  }
 
-    const payload = {
-      title: eventForm.title.value.trim(),
-      date: eventForm.date.value,
-      time: eventForm.time.value,
-      location: eventForm.location.value.trim(),
-      price: eventForm.price.value.trim(),
-      ticketUrl: eventForm.ticketUrl.value.trim(),
-      status: eventForm.status.value,
-      notes: eventForm.notes.value.trim(),
-      createdAt: serverTimestamp(),
-    };
+  if (eventForm) {
+    eventForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setError("");
+      setMessage(successEl, "");
 
-    try {
-      await addDoc(collection(db, "events"), payload);
-      eventForm.reset();
-      setMessage(successEl, "Event added.");
-    } catch (error) {
-      setError(error.message);
-    }
-  });
+      const payload = {
+        title: eventForm.title.value.trim(),
+        date: eventForm.date.value,
+        time: eventForm.time.value,
+        location: eventForm.location.value.trim(),
+        price: eventForm.price.value.trim(),
+        ticketUrl: eventForm.ticketUrl.value.trim(),
+        status: eventForm.status.value,
+        notes: eventForm.notes.value.trim(),
+      };
+      const editId = eventForm.dataset.editId;
+
+      try {
+        if (editId) {
+          await updateDoc(doc(db, "events", editId), {
+            ...payload,
+            updatedAt: serverTimestamp(),
+          });
+          resetEventForm({ keepMessage: true });
+          setMessage(successEl, "Event updated.");
+        } else {
+          await addDoc(collection(db, "events"), {
+            ...payload,
+            createdAt: serverTimestamp(),
+          });
+          resetEventForm({ keepMessage: true });
+          setMessage(successEl, "Event added.");
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+    });
+  }
 
   if (waitlistCopyButton) {
     waitlistCopyButton.addEventListener("click", async () => {
