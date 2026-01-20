@@ -41,13 +41,49 @@
                         <a class="btn btn-secondary btn-small" href="admin.html">Event manager</a>
                         <a class="btn btn-secondary btn-small" href="admin-waitlist.html">Merch waitlist</a>
                         <a class="btn btn-secondary btn-small" href="admin-shop.html">Shop</a>
+                        <a class="btn btn-secondary btn-small" href="admin-orders.html">Orders</a>
                         <a class="btn btn-secondary btn-small" href="admin-group-dates.html">Group dates</a>
                         <a class="btn btn-secondary btn-small" href="admin-sponsors.html">Sponsors</a>
                     </div>
                     <p class="form-error" data-admin-panel-error hidden></p>
-                    <div class="card">
-                        <h3>Sponsors admin</h3>
-                        <p class="footer-note">Future admin page for sponsor relationships.</p>
+                    <div class="admin-grid">
+                        <div class="card">
+                            <h3>Add sponsor</h3>
+                            <form class="form-grid" id="sponsor-form">
+                                <label class="form-field">
+                                    Logo image URL (optional if you upload)
+                                    <input type="url" name="logoUrl" placeholder="https://logo.png">
+                                </label>
+                                <label class="form-field">
+                                    Upload logo (optional if URL provided)
+                                    <input type="file" name="logoFile" accept="image/*">
+                                    <span class="footer-note">Logos look best with transparent PNGs or SVGs.</span>
+                                </label>
+                                <label class="form-field">
+                                    Website link
+                                    <input type="url" name="websiteUrl" placeholder="https://example.com" required>
+                                </label>
+                                <label class="form-field">
+                                    Sponsor name (optional)
+                                    <input type="text" name="name" placeholder="Company name or label">
+                                </label>
+                                <label class="form-field">
+                                    Logo background color (optional)
+                                    <input type="color" name="backgroundColor" value="#ffffff">
+                                </label>
+                                <button class="btn btn-primary" type="submit">Add sponsor</button>
+                                <button class="btn btn-ghost btn-small" type="button" id="sponsor-cancel" hidden>
+                                    Cancel edit
+                                </button>
+                            </form>
+                            <p class="form-success" data-sponsor-success hidden></p>
+                        </div>
+                        <div class="card">
+                            <h3>Current sponsors</h3>
+                            <div class="sponsor-list" id="sponsor-list">
+                                <p class="footer-note">No sponsors yet.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

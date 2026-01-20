@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Date Machine | Admin - Merch Waitlist</title>
-    <meta name="description" content="Admin merch waitlist dashboard for The Date Machine.">
+    <title>The Date Machine | Admin - Orders</title>
+    <meta name="description" content="Admin orders dashboard for The Date Machine.">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
 </head>
@@ -32,8 +32,8 @@
                 <div class="admin-panel" data-admin-panel hidden>
                     <div class="admin-header">
                         <div>
-                            <h1 class="section-title">Merch waitlist</h1>
-                            <p class="section-subtitle">Review and manage merch waitlist signups.</p>
+                            <h1 class="section-title">Orders</h1>
+                            <p class="section-subtitle">Review incoming shop orders.</p>
                         </div>
                         <button class="btn btn-ghost" id="admin-signout" type="button">Sign out</button>
                     </div>
@@ -46,18 +46,14 @@
                         <a class="btn btn-secondary btn-small" href="admin-sponsors.html">Sponsors</a>
                     </div>
                     <p class="form-error" data-admin-panel-error hidden></p>
-                    <div class="card admin-waitlist">
+                    <div class="card">
                         <div class="admin-section-header">
-                            <h3>Merch waitlist</h3>
-                            <button class="btn btn-secondary btn-small" id="waitlist-copy" type="button">
-                                Copy emails
-                            </button>
+                            <h3>Recent orders</h3>
+                            <span class="footer-note"><span id="orders-count">0</span> total</span>
                         </div>
-                        <p class="footer-note"><span id="waitlist-count">0</span> signups</p>
-                        <div class="waitlist-list" id="waitlist-list">
-                            <p class="footer-note">No signups yet.</p>
+                        <div class="orders-list" id="orders-list">
+                            <p class="footer-note">No orders yet.</p>
                         </div>
-                        <p class="footer-note" id="waitlist-message" hidden></p>
                     </div>
                 </div>
             </div>

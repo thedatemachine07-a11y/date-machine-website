@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Date Machine | Cart</title>
+    <meta name="description" content="Review your Date Machine cart.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
+</head>
+<body>
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section class="section">
+            <div class="container">
+                <div class="cart-header">
+                    <div>
+                        <h1 class="section-title">Your cart</h1>
+                        <p class="section-subtitle">Review your items before checkout.</p>
+                    </div>
+                    <a class="btn btn-secondary" href="shop.html">Keep shopping</a>
+                </div>
+                <div class="cart-grid">
+                    <div class="card">
+                        <div class="cart-list" id="cart-items"></div>
+                        <p class="footer-note" id="cart-empty" hidden>Your cart is empty.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Order summary</h3>
+                        <div class="cart-summary" id="cart-summary"></div>
+                        <button class="btn btn-primary" id="cart-checkout" type="button">Proceed to checkout</button>
+                        <button class="btn btn-ghost btn-small" id="cart-clear" type="button">Clear cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="main.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script type="module" src="cart.js"></script>
+</body>
+</html>

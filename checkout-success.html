@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Date Machine | Order Confirmed</title>
+    <meta name="description" content="Your order is confirmed.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
+</head>
+<body>
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section class="section">
+            <div class="container">
+                <div class="card" style="max-width: 640px; margin: 0 auto;">
+                    <h3>Order confirmed</h3>
+                    <p>Thanks for your purchase! We'll email your receipt shortly.</p>
+                    <a class="btn btn-primary" href="shop.html">Back to the shop</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="main.js" defer></script>
+    <script type="module">
+        import { clearCart } from "./cart-utils.js";
+        clearCart();
+    </script>
+</body>
+</html>

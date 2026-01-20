@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Date Machine | Checkout</title>
+    <meta name="description" content="Complete your Date Machine order.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
+</head>
+<body>
+    <div id="site-header"></div>
+    <main class="main-content">
+        <section class="section">
+            <div class="container checkout-grid">
+                <div class="card">
+                    <h3>Checkout</h3>
+                    <form class="form-grid" id="checkout-form">
+                        <a class="btn btn-secondary btn-small" href="cart.html">Back to cart</a>
+                        <label class="form-field">
+                            Full name
+                            <input type="text" name="name" placeholder="Your name" required>
+                        </label>
+                        <label class="form-field">
+                            Email address
+                            <input type="email" name="email" placeholder="you@example.com" required>
+                        </label>
+                        <label class="form-field">
+                            Phone number
+                            <input type="tel" name="phone" placeholder="(555) 555-5555">
+                        </label>
+                        <label class="form-field">
+                            Shipping address
+                            <input type="text" name="address" placeholder="123 Main St">
+                        </label>
+                        <div class="form-split">
+                            <label class="form-field">
+                                City
+                                <input type="text" name="city" placeholder="Rexburg">
+                            </label>
+                            <label class="form-field">
+                                State
+                                <input type="text" name="state" placeholder="ID">
+                            </label>
+                            <label class="form-field">
+                                ZIP
+                                <input type="text" name="zip" placeholder="83440">
+                            </label>
+                        </div>
+                        <label class="form-field">
+                            Notes (optional)
+                            <textarea name="notes" placeholder="Anything we should know?"></textarea>
+                        </label>
+                        <button class="btn btn-primary" type="submit">
+                            <span class="btn-label">Continue to payment</span>
+                            <span class="btn-spinner" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                    <p class="footer-note">
+                        You'll be redirected to our secure Stripe checkout to finish payment.
+                    </p>
+                    <p class="form-success" id="checkout-success" hidden></p>
+                    <p class="form-error" id="checkout-error" hidden></p>
+                </div>
+                <div class="card">
+                    <h3>Order summary</h3>
+                    <div class="cart-summary" id="checkout-summary"></div>
+                    <p class="footer-note" id="checkout-empty" hidden>Your cart is empty.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="main.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="module" src="checkout.js"></script>
+</body>
+</html>

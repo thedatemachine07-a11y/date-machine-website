@@ -41,13 +41,79 @@
                         <a class="btn btn-secondary btn-small" href="admin.html">Event manager</a>
                         <a class="btn btn-secondary btn-small" href="admin-waitlist.html">Merch waitlist</a>
                         <a class="btn btn-secondary btn-small" href="admin-shop.html">Shop</a>
+                        <a class="btn btn-secondary btn-small" href="admin-orders.html">Orders</a>
                         <a class="btn btn-secondary btn-small" href="admin-group-dates.html">Group dates</a>
                         <a class="btn btn-secondary btn-small" href="admin-sponsors.html">Sponsors</a>
                     </div>
                     <p class="form-error" data-admin-panel-error hidden></p>
+                    <div class="admin-grid">
+                        <div class="card">
+                            <h3>Add shop item</h3>
+                            <form class="form-grid" id="shop-form">
+                                <label class="form-field">
+                                    Item name
+                                    <input type="text" name="name" placeholder="Date Machine tee" required>
+                                </label>
+                                <label class="form-field">
+                                    Price
+                                    <input type="number" name="price" min="0" step="0.01" placeholder="24.00" required>
+                                </label>
+                                <label class="form-field">
+                                    Quantity available (no sizes)
+                                    <input type="number" name="quantity" min="0" step="1" placeholder="0">
+                                </label>
+                                <div class="form-field">
+                                    Size variants (optional)
+                                    <div class="size-list" data-size-list></div>
+                                    <button class="btn btn-secondary btn-small" type="button" id="size-add">
+                                        Add size
+                                    </button>
+                                    <span class="footer-note">
+                                        Use size variants to track quantity per size. Leave empty to use overall quantity.
+                                    </span>
+                                </div>
+                                <label class="form-field">
+                                    Upload images
+                                    <input type="file" name="imageFiles" accept="image/*" multiple>
+                                    <span class="footer-note">Upload at least one photo. Multiple uploads are supported.</span>
+                                </label>
+                                <div class="shop-image-list" data-shop-images></div>
+                                <label class="form-field">
+                                    Description
+                                    <textarea name="description" placeholder="Short description for the shop item."></textarea>
+                                </label>
+                                <label class="form-field">
+                                    Status
+                                    <select name="status">
+                                        <option value="available">Available</option>
+                                        <option value="sold-out">Sold out</option>
+                                        <option value="hidden">Hidden</option>
+                                    </select>
+                                </label>
+                                <button class="btn btn-primary" type="submit">Add item</button>
+                                <button class="btn btn-ghost btn-small" type="button" id="shop-cancel" hidden>
+                                    Cancel edit
+                                </button>
+                            </form>
+                            <p class="form-success" data-shop-success hidden></p>
+                        </div>
+                        <div class="card">
+                            <h3>Shop items</h3>
+                            <div class="shop-list" id="shop-list">
+                                <p class="footer-note">No shop items yet.</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card">
-                        <h3>Shop admin</h3>
-                        <p class="footer-note">Future admin page for merch inventory and pricing.</p>
+                        <h3>Shop settings</h3>
+                        <form class="form-grid" id="shop-settings-form">
+                            <label class="form-field">
+                                Tax percentage
+                                <input type="number" name="taxRate" min="0" step="0.01" placeholder="6.5">
+                            </label>
+                            <button class="btn btn-primary" type="submit">Save settings</button>
+                        </form>
+                        <p class="form-success" data-shop-settings-success hidden></p>
                     </div>
                 </div>
             </div>
