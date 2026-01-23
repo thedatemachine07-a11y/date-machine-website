@@ -86,6 +86,14 @@ const setError = (message) => {
   setMessage(panelErrorEl, message);
 };
 
+const setButtonLoading = (button, isLoading) => {
+  if (!button) {
+    return;
+  }
+  button.classList.toggle("loading", isLoading);
+  button.disabled = isLoading;
+};
+
 const formatStatus = (status) => {
   if (!status) {
     return "Scheduled";
@@ -858,10 +866,6 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
         ? `${data.name || "Customer"} ${orderId}`
         : data.name || "Customer";
 
-      const total = document.createElement("p");
-      total.className = "order-total";
-      total.textContent = formatCurrency(data.total || data.subtotal || 0);
-
       const paid = document.createElement("span");
       paid.className = "pill";
       paid.textContent = data.paid ? "Paid" : "Unpaid";
@@ -870,15 +874,32 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
       const isCanceled = statusValue === "canceled";
       const isPartiallyRefunded = statusValue === "partially-refunded";
       const isRefunded = statusValue === "refunded";
+      const hasRefundedItems = (data.items || []).some(
+        (orderItem) => Number(orderItem.canceledQuantity) > 0
+      );
+      const blockFullCancel = isPartiallyRefunded || hasRefundedItems;
       const canceledPill = document.createElement("span");
       if (isCanceled || isPartiallyRefunded || isRefunded) {
         canceledPill.className = "pill";
         canceledPill.textContent = isCanceled
-          ? "Canceled"
+          ? "Refunded"
           : isRefunded
           ? "Refunded"
           : "Partial refund";
       }
+
+      const total = document.createElement("p");
+      total.className = "order-total";
+      const totalValue = Number(data.total);
+      const subtotalValue = Number(data.subtotal);
+      const displayTotal = isCanceled || isRefunded
+        ? 0
+        : Number.isFinite(totalValue)
+        ? totalValue
+        : Number.isFinite(subtotalValue)
+        ? subtotalValue
+        : 0;
+      total.textContent = formatCurrency(displayTotal);
 
       header.append(name, total, paid);
       if (isCanceled || isPartiallyRefunded || isRefunded) {
@@ -896,7 +917,9 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
 
       const items = document.createElement("div");
       items.className = "order-items";
-      (data.items || []).forEach((orderItem) => {
+      const orderItems = data.items || [];
+      const hasMultipleItems = orderItems.length > 1;
+      orderItems.forEach((orderItem) => {
         const row = document.createElement("div");
         row.className = "order-line-row";
         const line = document.createElement("p");
@@ -909,23 +932,27 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
           line.classList.add("order-line-canceled");
           const canceledLabel = document.createElement("span");
           canceledLabel.className = "pill";
-          canceledLabel.textContent = "Canceled";
+          canceledLabel.textContent = "Refunded";
           row.append(line, canceledLabel);
         } else {
           row.appendChild(line);
-          if (data.paid && !isCanceled && !isRefunded) {
+          if (data.paid && !isCanceled && !isRefunded && hasMultipleItems) {
             const cancelButton = document.createElement("button");
             cancelButton.type = "button";
             cancelButton.className = "btn btn-ghost btn-small";
             cancelButton.textContent = "Cancel item";
+            const cancelSpinner = document.createElement("span");
+            cancelSpinner.className = "btn-spinner";
+            cancelButton.appendChild(cancelSpinner);
             cancelButton.addEventListener("click", async () => {
               const confirmText = window.prompt(
                 'Type "refund" to cancel this item:'
               );
               if (!confirmText || confirmText.trim().toLowerCase() !== "refund") {
+                setError('Refund not processed. Type "refund" to confirm.');
                 return;
               }
-              cancelButton.disabled = true;
+              setButtonLoading(cancelButton, true);
               try {
                 await cancelOrderItem({
                   orderId: docRef.id,
@@ -934,7 +961,7 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
                   itemSize: orderItem.size || "",
                 });
               } catch (error) {
-                cancelButton.disabled = false;
+                setButtonLoading(cancelButton, false);
                 setError(error.message);
               }
             });
@@ -951,10 +978,10 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
 
       const actions = document.createElement("div");
       actions.className = "order-actions";
-      if (isCanceled) {
+      if (isCanceled || isRefunded) {
         const canceledNote = document.createElement("p");
         canceledNote.className = "footer-note";
-        canceledNote.textContent = "Order canceled.";
+        canceledNote.textContent = "Order refunded.";
         actions.appendChild(canceledNote);
       } else {
         const shippingStatus = String(data.shippingStatus || "ordered").toLowerCase();
@@ -992,22 +1019,36 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
           actions.appendChild(markShipped);
         }
 
-        const cancelButton = document.createElement("button");
-        cancelButton.className = "btn btn-secondary btn-small";
-        cancelButton.type = "button";
-        cancelButton.textContent = "Cancel order";
-        cancelButton.addEventListener("click", async () => {
-          const confirmText = window.prompt('Type "refund" to cancel this order:');
-          if (!confirmText || confirmText.trim().toLowerCase() !== "refund") {
-            return;
-          }
-          try {
-            await cancelOrder({orderId: docRef.id});
-          } catch (error) {
-            setError(error.message);
-          }
-        });
-        actions.appendChild(cancelButton);
+        if (blockFullCancel) {
+          const cancelNote = document.createElement("p");
+          cancelNote.className = "footer-note";
+          cancelNote.textContent =
+            "Partial refunds applied. Full order cancellation is disabled.";
+          actions.appendChild(cancelNote);
+        } else {
+          const cancelButton = document.createElement("button");
+          cancelButton.className = "btn btn-secondary btn-small";
+          cancelButton.type = "button";
+          cancelButton.textContent = "Cancel order";
+          const cancelSpinner = document.createElement("span");
+          cancelSpinner.className = "btn-spinner";
+          cancelButton.appendChild(cancelSpinner);
+          cancelButton.addEventListener("click", async () => {
+            const confirmText = window.prompt('Type "refund" to cancel this order:');
+            if (!confirmText || confirmText.trim().toLowerCase() !== "refund") {
+              setError('Refund not processed. Type "refund" to confirm.');
+              return;
+            }
+            setButtonLoading(cancelButton, true);
+            try {
+              await cancelOrder({orderId: docRef.id});
+            } catch (error) {
+              setButtonLoading(cancelButton, false);
+              setError(error.message);
+            }
+          });
+          actions.appendChild(cancelButton);
+        }
       }
 
       const footer = document.createElement("div");

@@ -1302,6 +1302,13 @@ exports.cancelOrder = onCall(
         refundId = refund.id;
       }
 
+      const previousSubtotal = Number(order.subtotal) || 0;
+      const previousTax = Number(order.taxAmount) || 0;
+      const previousTotal = Number(order.total) || previousSubtotal + previousTax;
+      const refundedSubtotal = order.paid ? previousSubtotal : 0;
+      const refundedTax = order.paid ? previousTax : 0;
+      const refundedTotal = order.paid ? previousTotal : 0;
+
       await restoreInventory(order.items || []);
       try {
         await removeEventRegistrations(order.orderId || "", orderId);
@@ -1310,6 +1317,12 @@ exports.cancelOrder = onCall(
       }
       await orderRef.update({
         status: "canceled",
+        subtotal: 0,
+        taxAmount: 0,
+        total: 0,
+        refundedSubtotal,
+        refundedTax,
+        refundedTotal,
         canceledAt: admin.firestore.FieldValue.serverTimestamp(),
         refundId,
         refundStatus: order.paid ? "issued" : "not-applicable",
