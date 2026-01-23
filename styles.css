@@ -321,6 +321,16 @@ a {
   height: 70px;
 }
 
+.social-link img[alt="TikTok"] {
+  width: 48px;
+  height: 48px;
+}
+
+.social-link img[alt="Facebook"] {
+  width: 48px;
+  height: 48px;
+}
+
 .hero-card {
   background: var(--white);
   border-radius: var(--radius-lg);
