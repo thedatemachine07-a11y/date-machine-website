@@ -1,6 +1,6 @@
 window.firebaseConfig = window.firebaseConfig || {
   apiKey: "AIzaSyDolnpbVCix7TTmikYbiczkyUpVDJagCh0",
-  stripePublishableKey: "pk_test_51Sozf9LdoU7mCa3RjkNjay2ac0bbYkevFn59RdZtF5Ie08ZGogNwfRcW6p4rN0MX1IMZDVxcsJN5kzhJPclHea9u00XFKoijkh",
+  stripePublishableKey: "pk_live_51Sozf9LdoU7mCa3RdT4RhLYN98QtdzVHkjmwJHcOtkmIp9Idrv4WjLwwBIO1FA1Rh9HNK9bvn0wuKuv7SOkMMU5700pjKzXODQ",
   authDomain: "date-machine.firebaseapp.com",
   projectId: "date-machine",
   storageBucket: "date-machine.firebasestorage.app",

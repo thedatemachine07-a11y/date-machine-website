@@ -1304,7 +1304,8 @@ exports.cancelOrder = onCall(
 
       const previousSubtotal = Number(order.subtotal) || 0;
       const previousTax = Number(order.taxAmount) || 0;
-      const previousTotal = Number(order.total) || previousSubtotal + previousTax;
+      const previousTotal =
+        Number(order.total) || previousSubtotal + previousTax;
       const refundedSubtotal = order.paid ? previousSubtotal : 0;
       const refundedTax = order.paid ? previousTax : 0;
       const refundedTotal = order.paid ? previousTotal : 0;
