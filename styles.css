@@ -1019,9 +1019,6 @@ main > .hero:first-child {
   scroll-margin-top: 120px;
 }
 
-.admin-waitlist {
-  margin-top: 8px;
-}
 
 .admin-header {
   display: flex;
@@ -1203,51 +1200,6 @@ main > .hero:first-child {
   flex-wrap: wrap;
 }
 
-.waitlist-list {
-  display: grid;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.waitlist-item {
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  background: var(--cream);
-  border: 1px solid rgba(230, 173, 191, 0.35);
-  display: grid;
-  gap: 8px;
-}
-
-.waitlist-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.waitlist-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.waitlist-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.waitlist-name {
-  font-weight: 700;
-  margin: 0;
-}
-
-.waitlist-email {
-  margin: 0;
-  color: var(--ink-soft);
-}
 
 .shop-list {
   display: grid;

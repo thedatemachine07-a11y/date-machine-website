@@ -41,10 +41,6 @@ const eventForm = document.querySelector("#event-form");
 const eventList = document.querySelector("#event-list");
 const signOutButton = document.querySelector("#admin-signout");
 const eventCancelButton = document.querySelector("#event-cancel");
-const waitlistList = document.querySelector("#waitlist-list");
-const waitlistCount = document.querySelector("#waitlist-count");
-const waitlistCopyButton = document.querySelector("#waitlist-copy");
-const waitlistMessage = document.querySelector("#waitlist-message");
 const sponsorForm = document.querySelector("#sponsor-form");
 const sponsorList = document.querySelector("#sponsor-list");
 const sponsorSuccess = document.querySelector("[data-sponsor-success]");
@@ -527,8 +523,6 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
 
   let eventsUnsubscribe = null;
   let registrationsUnsubscribe = null;
-  let waitlistUnsubscribe = null;
-  let waitlistEmails = [];
   let sponsorsUnsubscribe = null;
   let shopUnsubscribe = null;
   let ordersUnsubscribe = null;
@@ -541,78 +535,6 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
     return getDownloadURL(fileRef);
   };
 
-  const renderWaitlist = (snapshot) => {
-    if (!waitlistList) {
-      return;
-    }
-    waitlistList.innerHTML = "";
-    waitlistEmails = [];
-    if (waitlistCount) {
-      waitlistCount.textContent = String(snapshot.size || 0);
-    }
-    if (snapshot.empty) {
-      const empty = document.createElement("p");
-      empty.className = "footer-note";
-      empty.textContent = "No signups yet.";
-      waitlistList.appendChild(empty);
-      return;
-    }
-
-    snapshot.forEach((docRef) => {
-      const data = docRef.data();
-      if (data.email) {
-        waitlistEmails.push(data.email);
-      }
-
-      const item = document.createElement("div");
-      item.className = "waitlist-item";
-
-      const name = document.createElement("p");
-      name.className = "waitlist-name";
-      name.textContent = data.name || "Unnamed";
-
-      const email = document.createElement("p");
-      email.className = "waitlist-email";
-      email.textContent = data.email || "No email";
-
-      const merch = document.createElement("span");
-      merch.className = "pill";
-      merch.textContent = data.merch ? data.merch.replace(/^\w/, (c) => c.toUpperCase()) : "Merch";
-
-      const header = document.createElement("div");
-      header.className = "waitlist-row";
-
-      const meta = document.createElement("div");
-      meta.className = "waitlist-meta";
-      meta.append(name, merch);
-
-      const actions = document.createElement("div");
-      actions.className = "waitlist-actions";
-
-      const deleteButton = document.createElement("button");
-      deleteButton.type = "button";
-      deleteButton.className = "btn btn-ghost btn-small";
-      deleteButton.textContent = "Delete";
-      deleteButton.addEventListener("click", async () => {
-        const confirmed = window.confirm("Delete this waitlist entry?");
-        if (!confirmed) {
-          return;
-        }
-        try {
-          await deleteDoc(doc(db, "waitlist", docRef.id));
-          setMessage(waitlistMessage, "Waitlist entry deleted.");
-        } catch (error) {
-          setError(error.message);
-        }
-      });
-
-      actions.append(deleteButton);
-      header.append(meta, actions);
-
-      item.append(header, email);
-      waitlistList.appendChild(item);
-    });
-  };
 
   const renderSponsors = (snapshot) => {
     if (!sponsorList) {
@@ -1110,18 +1032,6 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
     );
   };
 
-  const startWaitlistListener = () => {
-    if (waitlistUnsubscribe || !waitlistList) {
-      return;
-    }
-    const waitlistQuery = query(
-      collection(db, "waitlist"),
-      orderBy("createdAt", "desc")
-    );
-    waitlistUnsubscribe = onSnapshot(waitlistQuery, renderWaitlist, (error) => {
-      setError(error.message);
-    });
-  };
 
   const startSponsorsListener = () => {
     if (sponsorsUnsubscribe || !sponsorList) {
@@ -1190,12 +1100,6 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
     }
   };
 
-  const stopWaitlistListener = () => {
-    if (waitlistUnsubscribe) {
-      waitlistUnsubscribe();
-      waitlistUnsubscribe = null;
-    }
-  };
 
   const stopSponsorsListener = () => {
     if (sponsorsUnsubscribe) {
@@ -1231,7 +1135,6 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
       panelSection.hidden = false;
       setError("");
       startEventsListener();
-      startWaitlistListener();
       startSponsorsListener();
       startShopListener();
       startOrdersListener();
@@ -1241,7 +1144,6 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
       panelSection.hidden = true;
       setError("");
       stopEventsListener();
-      stopWaitlistListener();
       stopSponsorsListener();
       stopShopListener();
       stopOrdersListener();
@@ -1327,27 +1229,6 @@ if (!window.firebaseConfig || window.firebaseConfig.apiKey === "REPLACE_ME") {
     });
   }
 
-  if (waitlistCopyButton) {
-    waitlistCopyButton.addEventListener("click", async () => {
-      setMessage(waitlistMessage, "");
-      if (!waitlistEmails.length) {
-        setMessage(waitlistMessage, "No emails to copy yet.");
-        return;
-      }
-
-      const text = waitlistEmails.join(", ");
-      try {
-        if (navigator.clipboard?.writeText) {
-          await navigator.clipboard.writeText(text);
-          setMessage(waitlistMessage, "Emails copied to clipboard.");
-        } else {
-          setMessage(waitlistMessage, "Clipboard unavailable in this browser.");
-        }
-      } catch (error) {
-        setMessage(waitlistMessage, "Unable to copy emails.");
-      }
-    });
-  }
 
   if (sponsorForm) {
     sponsorForm.addEventListener("submit", async (event) => {
